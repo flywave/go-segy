@@ -1,0 +1,8 @@
+# Test data
+testdata/*.sgy
+testdata/*.segy
+
+# IDE
+.idea/
+.vscode/
+*.swp
