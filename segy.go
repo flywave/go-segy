@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	TextualHeaderSize    = 3200
-	BinaryHeaderSize     = 400
-	TraceHeaderSize      = 240
-	Rev1TextHeaderSize   = 3200 + 800
-	Rev1MinHeaderSize    = 3600
-	InlineHeaderPos      = 189 // byte offset within trace header
-	CrosslineHeaderPos   = 193
+	TextualHeaderSize  = 3200
+	BinaryHeaderSize   = 400
+	TraceHeaderSize    = 240
+	Rev1TextHeaderSize = 3200 + 800
+	Rev1MinHeaderSize  = 3600
+	InlineHeaderPos    = 189 // byte offset within trace header
+	CrosslineHeaderPos = 193
 )
 
 var (
@@ -31,58 +31,58 @@ var (
 type SampleFormat int
 
 const (
-	FormatIBM     SampleFormat = 1
-	FormatInt32   SampleFormat = 2
-	FormatInt16   SampleFormat = 3
-	FormatIEEE    SampleFormat = 5
-	FormatInt8    SampleFormat = 8
-	FormatInt64   SampleFormat = 10
+	FormatIBM   SampleFormat = 1
+	FormatInt32 SampleFormat = 2
+	FormatInt16 SampleFormat = 3
+	FormatIEEE  SampleFormat = 5
+	FormatInt8  SampleFormat = 8
+	FormatInt64 SampleFormat = 10
 )
 
 type TextualHeader struct {
-	Raw        [TextualHeaderSize]byte
-	ASCII      string
-	Lines      []string
+	Raw   [TextualHeaderSize]byte
+	ASCII string
+	Lines []string
 }
 
 type BinaryHeader struct {
-	JobID            int32
-	LineNumber       int32
-	ReelNumber       int32
-	TracesPerEnsemble int16
+	JobID                int32
+	LineNumber           int32
+	ReelNumber           int32
+	TracesPerEnsemble    int16
 	AuxTracesPerEnsemble int16
-	SampleInterval   int16
-	SampleIntervalOrig int16
-	SamplesPerTrace  int16
-	SamplesPerTraceOrig int16
-	SampleFormat     SampleFormat
-	CDPUnits         int16
-	MeasurementSystem int16
-	ByteOrder        string
+	SampleInterval       int16
+	SampleIntervalOrig   int16
+	SamplesPerTrace      int16
+	SamplesPerTraceOrig  int16
+	SampleFormat         SampleFormat
+	CDPUnits             int16
+	MeasurementSystem    int16
+	ByteOrder            string
 }
 
 type TraceHeader struct {
-	TraceSeqLine    int32
-	TraceSeqFile    int32
-	FieldRecord     int32
-	EnergySourcePt  int32
-	CDP             int32
-	CDPX            int32
-	CDPY            int32
-	Inline          int32
-	Crossline       int32
-	Offset          int32
-	SampleCount     int16
-	SampleInterval  int16
-	Raw             [TraceHeaderSize]byte
-	SourceX         float64
-	SourceY         float64
-	GroupX          float64
-	GroupY          float64
+	TraceSeqLine   int32
+	TraceSeqFile   int32
+	FieldRecord    int32
+	EnergySourcePt int32
+	CDP            int32
+	CDPX           int32
+	CDPY           int32
+	Inline         int32
+	Crossline      int32
+	Offset         int32
+	SampleCount    int16
+	SampleInterval int16
+	Raw            [TraceHeaderSize]byte
+	SourceX        float64
+	SourceY        float64
+	GroupX         float64
+	GroupY         float64
 }
 
 type Trace struct {
-	Header TraceHeader
+	Header  TraceHeader
 	Samples []float32
 }
 
@@ -243,19 +243,19 @@ func parseBinaryHeader(data []byte) BinaryHeader {
 	}
 
 	bh := BinaryHeader{
-		JobID:              get(0, 4),
-		LineNumber:         get(4, 4),
-		ReelNumber:         get(8, 4),
-		TracesPerEnsemble:  int16(get(12, 2)),
+		JobID:                get(0, 4),
+		LineNumber:           get(4, 4),
+		ReelNumber:           get(8, 4),
+		TracesPerEnsemble:    int16(get(12, 2)),
 		AuxTracesPerEnsemble: int16(get(14, 2)),
-		SampleInterval:     int16(get(16, 2)),
-		SampleIntervalOrig: int16(get(18, 2)),
-		SamplesPerTrace:    int16(get(20, 2)),
-		SamplesPerTraceOrig: int16(get(22, 2)),
-		SampleFormat:       SampleFormat(get(24, 2)),
-		CDPUnits:           int16(get(26, 2)),
-		MeasurementSystem:  int16(get(28, 2)),
-		ByteOrder:          "big",
+		SampleInterval:       int16(get(16, 2)),
+		SampleIntervalOrig:   int16(get(18, 2)),
+		SamplesPerTrace:      int16(get(20, 2)),
+		SamplesPerTraceOrig:  int16(get(22, 2)),
+		SampleFormat:         SampleFormat(get(24, 2)),
+		CDPUnits:             int16(get(26, 2)),
+		MeasurementSystem:    int16(get(28, 2)),
+		ByteOrder:            "big",
 	}
 	if bh.SampleFormat == 0 {
 		bh.SampleFormat = FormatIBM
@@ -453,12 +453,12 @@ func (s *SEGYFile) CrosslineCount() int {
 
 func (s *SEGYFile) JSON(indent bool) (string, error) {
 	type segyJSON struct {
-		FilePath     string `json:"file_path,omitempty"`
-		InlineCount  int    `json:"inline_count"`
-		CrosslineCount int  `json:"crossline_count"`
-		SampleCount  int    `json:"sample_count"`
-		SampleFormat SampleFormat `json:"sample_format"`
-		TraceCount   int    `json:"trace_count"`
+		FilePath       string       `json:"file_path,omitempty"`
+		InlineCount    int          `json:"inline_count"`
+		CrosslineCount int          `json:"crossline_count"`
+		SampleCount    int          `json:"sample_count"`
+		SampleFormat   SampleFormat `json:"sample_format"`
+		TraceCount     int          `json:"trace_count"`
 	}
 
 	sj := segyJSON{
