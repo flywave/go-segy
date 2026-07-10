@@ -1,6 +1,5 @@
-# Test data
-testdata/*.sgy
-testdata/*.segy
+# Keep only small test data; large SEG-Y files (E5_*.sgy) should be manually placed
+testdata/E5_*.sgy
 
 # IDE
 .idea/
